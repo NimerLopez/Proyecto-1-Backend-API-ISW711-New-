@@ -25,7 +25,7 @@ route.post('/newSource', async (req, res) => {
             let NewSocon = new NewSource(req.body);//captura dats de request
             console.log(NewSocon);
             let savedNewSource = await NewSocon.save();//guarda datos
-            let updatedData = await studentPost(req.body);//actualiza las noticias 
+            //let updatedData = await studentPost(req.body);//actualiza las noticias 
             res.status(201);
             res.json(savedNewSource);
         } else {

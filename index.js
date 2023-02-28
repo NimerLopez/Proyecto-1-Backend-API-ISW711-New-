@@ -5,7 +5,7 @@ const userRoute=require('./routes/UserRoutes')
 const newRoute=require('./routes/NewRoutes')
 const newSoruceRoute=require('./routes/NewSourceRoutes')
 const categories=require('./routes/CategoryRoutes')
-
+const login=require('./routes/LoginRoutes')
 const cors = require('cors');
 const app = express();
 app.use(express.json());
@@ -16,11 +16,13 @@ app.use(cors());
 //npm i express mongoose nodemon dotenv//2
 // npm i cors
 //npm install rss-parser
+//npm install bcrypt
 
 //middleware
 
 
 app.use('/api',userRoute);
+app.use('/api',login);
 app.use('/api',newRoute);
 app.use('/api',newSoruceRoute);
 app.use('/api',categories);

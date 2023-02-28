@@ -45,10 +45,9 @@ route.post('/new', async (req, res) => {
           return result;
         })
       );
-      console.log(results);
-      res.json({ message: 'Datos procesados correctamente.' });
+      res.json(results);
     } else {
-      res.json(null);
+      res.status(422).json({ message: "No existen recursos" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -59,7 +58,7 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
   try {
     const results = [];
     for (const item of rssData) {
-      const existingArticle = await New.findOne({ title: item.title });
+      const existingArticle = await New.findOne({ title: item.title,user_id:userid});
       if (!existingArticle) {
         const NuevaNoticia = new New({
           title: item.title,
@@ -72,8 +71,8 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
         });
         //console.log(NuevaNoticia);
         let savedNew = await NuevaNoticia.save();//guarda datos
-        console.log(savedNew);
-
+        results.push({ message: 'Artículo guardado correctamente.', data: NuevaNoticia });//devuelve la noticia para la respuesta
+        console.log("existencia");
         //const savedArticle = await newArticle.save();
         // results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });
       }
