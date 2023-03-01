@@ -71,7 +71,7 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
         });
         //console.log(NuevaNoticia);
         let savedNew = await NuevaNoticia.save();//guarda datos
-        results.push({ message: 'Artículo guardado correctamente.', data: NuevaNoticia });//devuelve la noticia para la respuesta
+        results.push({ message: 'Artículo guardado correctamente.', data: savedNew });//devuelve la noticia para la respuesta
         console.log("existencia");
         //const savedArticle = await newArticle.save();
         // results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });
