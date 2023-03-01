@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Token = require('jsonwebtoken');
 const dotv = require('dotenv').config();
 const userRoute=require('./routes/UserRoutes')
 const newRoute=require('./routes/NewRoutes')
@@ -19,10 +20,25 @@ app.use(cors());
 //npm install bcrypt
 
 //middleware
-
-
+ 
 app.use('/api',userRoute);
 app.use('/api',login);
+app.use(function (req, res, next) { //valida token
+    const authHeader = req.headers['authorization'];//obtinen el token
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'No se proporcionó un token de autorización.' });
+    }
+         
+    Token.verify(token, "nimer1", (err, user) => {//verifica y decodifica el token
+      if (err) {
+        return res.status(403).json({ message: 'Token inválido.' });
+      }               
+      req.user = user;// Almacena el usuario en el objeto de solicitud para su uso posterior
+      console.log(req.user);
+      next();
+    });
+});
 app.use('/api',newRoute);
 app.use('/api',newSoruceRoute);
 app.use('/api',categories);

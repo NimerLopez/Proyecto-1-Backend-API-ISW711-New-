@@ -16,8 +16,7 @@ route.post('/login', async (req, res) => {
 
         if (password === Val_UserBD.password) {
             const token = jwt.sign({ id: Val_UserBD._id }, "nimer1");
-            res.json({ id: Val_UserBD._id, token });
-
+            return res.status(200).json({ id: Val_UserBD._id, token });
         } else {
             return res.status(422).json({ message: "Contraseña invalida" })
         }
