@@ -32,7 +32,7 @@ app.use(function (req, res, next) { //valida token
          
     Token.verify(token, "nimer1", (err, user) => {//verifica y decodifica el token
       if (err) {
-        return res.status(403).json({ message: 'Token inválido.' });
+        return res.status(403).json({ message: 'Unauthorized' });
       }               
       req.user = user;// Almacena el usuario en el objeto de solicitud para su uso posterior
       console.log(req.user);
