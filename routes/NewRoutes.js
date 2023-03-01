@@ -35,7 +35,7 @@ route.get('/new/:id', (req, res) => {
 
 route.post('/new', async (req, res) => {
   try {
-    const newssorce = await NewSource.find({ user_id: req.body.user_id });//extre todos los recursos de la noticias
+    const newssorce = await NewSource.find({ user_id: req.tokeng.id });//extre todos los recursos de la noticias
     //const newval = await New.find();//llama todas las noticias
     if (newssorce && newssorce.length > 0) {
       const results = await Promise.all(

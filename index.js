@@ -34,7 +34,7 @@ app.use(function (req, res, next) { //valida token
       if (err) {
         return res.status(403).json({ message: 'Unauthorized' });
       }               
-      req.user = user;// Almacena el usuario en el objeto de solicitud para su uso posterior
+      req.tokeng = user;// Almacena el usuario en el objeto de solicitud para su uso posterior
       console.log(req.user);
       next();
     });
