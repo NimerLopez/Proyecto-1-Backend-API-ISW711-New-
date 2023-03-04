@@ -35,17 +35,18 @@ route.get('/new/:id', (req, res) => {
 
 route.post('/new', async (req, res) => {
   try {
-    const newssorce = await NewSource.find({ user_id: req.tokeng.id });//extre todos los recursos de la noticias
+    const newssorce = await NewSource.find();//extre todos los recursos de la noticias
     //const newval = await New.find();//llama todas las noticias
     if (newssorce && newssorce.length > 0) {
       const results = await Promise.all(
         newssorce.map(async (item) => {//se recorren los recursos de la noticias
+          await New.deleteMany({ new_source_id: item._id });
           const feed = await parser.parseURL(item.url);
           const result = await saveNewRSSDataToMongo(feed.items, item.user_id, item.category_id, item._id);
           return result;
         })
       );
-      res.json(results);
+      res.status(201).json(results);
     } else {
       res.status(422).json({ message: "No existen recursos" });
     }
@@ -57,10 +58,8 @@ route.post('/new', async (req, res) => {
 async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
   try {
     const results = [];
-    for (const item of rssData) {
-      const existingArticle = await New.findOne({ title: item.title,user_id:userid});
-      if (!existingArticle) {
-        const NuevaNoticia = new New({
+    for (const item of rssData) {     
+        const nuevaNoticia = new New({
           title: item.title,
           short_description: item.contentSnippet,
           permalink: item.link,
@@ -70,12 +69,11 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
           category_id: categoriid
         });
         //console.log(NuevaNoticia);
-        let savedNew = await NuevaNoticia.save();//guarda datos
+        let savedNew = await nuevaNoticia.save();//guarda datos
         results.push({ message: 'Artículo guardado correctamente.', data: savedNew });//devuelve la noticia para la respuesta
         console.log("existencia");
         //const savedArticle = await newArticle.save();
-        // results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });
-      }
+        //results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });     
     }
     return results;
   } catch (error) {
@@ -108,7 +106,7 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
 //delete new 
 route.delete('/new/:id', (req, res) => {
   const { id } = req.params;
-  player.remove({ _id: id }).then((data) => res.json("Elemento Eliminado")).catch((err) => res.json({ message: err }))
+  player.remove({ _id: id }).then((data) => res.status(204).json("Elemento Eliminado")).catch((err) => res.status(500).json({ message: err }))
 });
 module.exports = route;
 
