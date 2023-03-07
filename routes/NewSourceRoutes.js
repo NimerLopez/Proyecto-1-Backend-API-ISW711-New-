@@ -4,7 +4,6 @@ const User = require("../models/UserSchema");
 const category = require("../models/CategoriesSchema");
 const NewSource = require("../models/NewSourceSchema");
 const New = require("../models/NewSchema")
-let { studentPost } = require('./UpdateNew'); // Importa la función
 const Parser = require('rss-parser');
 const parser = new Parser();
 //get all NewSource
