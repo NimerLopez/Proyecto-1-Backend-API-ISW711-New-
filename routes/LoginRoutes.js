@@ -15,8 +15,12 @@ route.post('/login', async (req, res) => {
         console.log(password);
 
         if (password === Val_UserBD.password) {
-            const token = jwt.sign({ id: Val_UserBD._id }, "nimer1");
-            return res.status(200).json({ id: Val_UserBD._id, token });
+            const payload = {
+                id: Val_UserBD._id,                
+                role: Val_UserBD.role // <-- role property included in payload
+              };
+            const token = jwt.sign(payload, "nimer1");
+            return res.status(200).json(token);
         } else {
             return res.status(422).json({ message: "Contraseña invalida" })
         }

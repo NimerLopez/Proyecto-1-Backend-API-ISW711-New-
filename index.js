@@ -35,17 +35,32 @@ app.use(function (req, res, next) { //valida token
         return res.status(403).json({ message: 'Unauthorized' });
       }               
       req.tokeng = user;// Almacena el usuario en el objeto de solicitud para su uso posterior
-      console.log(req.user);
+      console.log(req.tokeng);
       next();
     });
 });
 app.use('/api',newRoute);
 app.use('/api',newSoruceRoute);
-app.use('/api',categories);
+function isAdmin(req, res, next) {
+  // check if token is present
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  Token.verify(token, "nimer1", (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }   
+    if (user.role !== 'admin') {
+      return res.status(403).json({ message: 'Acceso denegado: solo los administradores pueden acceder a esta ruta.' });
+    }
+    next();
+  });
+}
+app.use('/api',isAdmin,categories);
 
 app.get("/",(req,res)=>{
     res.send("Welcome");
 })
+
 //mongoose connect
 mongoose.connect(process.env.MONGODB_URI).then(()=>console.log('Conected to mongodb')).catch((error)=>console.error(error));
 

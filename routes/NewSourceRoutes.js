@@ -78,7 +78,7 @@ route.post('/newSource/:id/process', async (req, res) => {
       const newssorce = await NewSource.findById(id);//busca el id del recurso
       await New.deleteMany({ new_source_id: newssorce._id });//borra todas las noticas de este recurso
       const feed = await parser.parseURL(newssorce.url);//procesa el feed
-  
+      
       const createdNews = [];//guarda el objeto guardado en mongodb
       for (const item of feed.items) {//lee el feed
         const nuevaNoticia = new New({//objeto New
