@@ -7,7 +7,7 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 //get all new by token
 route.get('/new', (req, res) => {
-  New.find({user_id:req.tokeng.id}).then((data) => res.status(200).json(data)).catch((err) => res.json({ message: err }))
+  New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.json({ message: err }))
 });
 //get new by id
 route.get('/new/:id', (req, res) => {
@@ -58,22 +58,22 @@ route.post('/new', async (req, res) => {
 async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
   try {
     const results = [];
-    for (const item of rssData) {     
-        const nuevaNoticia = new New({
-          title: item.title,
-          short_description: item.contentSnippet,
-          permalink: item.link,
-          date: item.pubDate,
-          new_source_id: idnewsource,
-          user_id: userid,
-          category_id: categoriid
-        });
-        //console.log(NuevaNoticia);
-        let savedNew = await nuevaNoticia.save();//guarda datos
-        results.push({ message: 'Artículo guardado correctamente.', data: savedNew });//devuelve la noticia para la respuesta
-        console.log("existencia");
-        //const savedArticle = await newArticle.save();
-        //results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });     
+    for (const item of rssData) {
+      const nuevaNoticia = new New({
+        title: item.title,
+        short_description: item.contentSnippet,
+        permalink: item.link,
+        date: item.pubDate,
+        new_source_id: idnewsource,
+        user_id: userid,
+        category_id: categoriid
+      });
+      //console.log(NuevaNoticia);
+      let savedNew = await nuevaNoticia.save();//guarda datos
+      results.push({ message: 'Artículo guardado correctamente.', data: savedNew });//devuelve la noticia para la respuesta
+      console.log("existencia");
+      //const savedArticle = await newArticle.save();
+      //results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });     
     }
     return results;
   } catch (error) {

@@ -8,7 +8,7 @@ route.post('/categories', (req, res) => {
   const Categoriesinsert = Categories.model(req.body);
   console.log(Categoriesinsert.firstname);
   Categoriesinsert.save().then((data) => res.header({ 'location': `http://localhost:3001/api/categories/?id=${data._id}` }),
-   res.status(201).json(data)).catch((err) => res.status(422).json({ message: err.message }));
+    res.status(201).json(data)).catch((err) => res.status(422).json({ message: err.message }));
 });
 //get all player
 route.get('/categories', (req, res) => {

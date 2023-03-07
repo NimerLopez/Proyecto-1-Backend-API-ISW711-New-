@@ -31,7 +31,7 @@ route.post('/newSource', async (req, res) => {
             res.status(201);
             res.header({
                 'location': `http://localhost:3001/api/newSource/?id=${savedNewSource._id}`
-              });
+            });
             res.json(savedNewSource);
         } else {
             res.status(422);
@@ -73,31 +73,31 @@ route.delete('/newSource/:id', (req, res) => {
 //process feed url 
 route.post('/newSource/:id/process', async (req, res) => {
     try {
-      const { id } = req.params;
-      const newssorce = await NewSource.findById(id);//busca el id del recurso
-      await New.deleteMany({ new_source_id: newssorce._id });//borra todas las noticas de este recurso
-      const feed = await parser.parseURL(newssorce.url);//procesa el feed
-      
-      const createdNews = [];//guarda el objeto guardado en mongodb
-      for (const item of feed.items) {//lee el feed
-        const nuevaNoticia = new New({//objeto New
-          title: item.title,
-          short_description: item.contentSnippet,
-          permalink: item.link,
-          date: item.pubDate,
-          new_source_id: newssorce._id,
-          user_id: newssorce.user_id,
-          category_id: newssorce.category_id
-        });
-        const savedNew = await nuevaNoticia.save();//guarda la noticas
-        createdNews.push(savedNew);//guarda el resultado en la lista
-        res.setHeader('Location', `http://localhost:3001/api/newSource/?id=${savedNew._id}`); // Agregar la ubicación por id en el header
-      }
-  
-      res.status(201).json(createdNews);
+        const { id } = req.params;
+        const newssorce = await NewSource.findById(id);//busca el id del recurso
+        await New.deleteMany({ new_source_id: newssorce._id });//borra todas las noticas de este recurso
+        const feed = await parser.parseURL(newssorce.url);//procesa el feed
+
+        const createdNews = [];//guarda el objeto guardado en mongodb
+        for (const item of feed.items) {//lee el feed
+            const nuevaNoticia = new New({//objeto New
+                title: item.title,
+                short_description: item.contentSnippet,
+                permalink: item.link,
+                date: item.pubDate,
+                new_source_id: newssorce._id,
+                user_id: newssorce.user_id,
+                category_id: newssorce.category_id
+            });
+            const savedNew = await nuevaNoticia.save();//guarda la noticas
+            createdNews.push(savedNew);//guarda el resultado en la lista
+            res.setHeader('Location', `http://localhost:3001/api/newSource/?id=${savedNew._id}`); // Agregar la ubicación por id en el header
+        }
+
+        res.status(201).json(createdNews);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  });
+});
 
 module.exports = route;

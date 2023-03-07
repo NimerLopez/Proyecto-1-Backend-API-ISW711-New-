@@ -16,9 +16,9 @@ route.post('/login', async (req, res) => {
 
         if (password === Val_UserBD.password) {
             const payload = {
-                id: Val_UserBD._id,                
+                id: Val_UserBD._id,
                 role: Val_UserBD.role // <-- role property included in payload
-              };
+            };
             const token = jwt.sign(payload, "nimer1");
             return res.status(200).json(token);
         } else {
