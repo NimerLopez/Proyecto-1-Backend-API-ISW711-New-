@@ -5,7 +5,7 @@ const New = require("../models/NewSchema")
 const NewSource = require("../models/NewSourceSchema")
 const Parser = require('rss-parser');
 const parser = new Parser();
-//get all new
+//get all new by token
 route.get('/new', (req, res) => {
   New.find({user_id:req.tokeng.id}).then((data) => res.status(200).json(data)).catch((err) => res.json({ message: err }))
 });
@@ -104,10 +104,10 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
 //   }
 // });
 //delete new 
-route.delete('/new/:id', (req, res) => {
-  const { id } = req.params;
-  player.remove({ _id: id }).then((data) => res.status(204).json("Elemento Eliminado")).catch((err) => res.status(500).json({ message: err }))
-});
+// route.delete('/new/:id', (req, res) => {
+//   const { id } = req.params;
+//   player.remove({ _id: id }).then((data) => res.status(204).json("Elemento Eliminado")).catch((err) => res.status(500).json({ message: err }))
+// });
 module.exports = route;
 
 

@@ -26,12 +26,12 @@ route.post('/newSource', async (req, res) => {
         console.log(category_id);
         if (Id_user && category_id) {//valida si existe el usuario
             let NewSocon = new NewSource(req.body);//captura dats de request
-            console.log(NewSocon);
+            //console.log(NewSocon);
             let savedNewSource = await NewSocon.save();//guarda datos
             //let updatedData = await studentPost(req.body);//actualiza las noticias 
             res.status(201);
             res.header({
-                'location': `http://localhost:3000/api/students/?id=${savedNewSource._id}`
+                'location': `http://localhost:3001/api/newSource/?id=${savedNewSource._id}`
               });
             res.json(savedNewSource);
         } else {
@@ -69,7 +69,7 @@ route.patch('/newSource/:id', async (req, res) => {
 //delete new 
 route.delete('/newSource/:id', (req, res) => {
     const { id } = req.params;
-    NewSource.remove({ _id: id }).then((data) => res.status(204).json("Elemento Eliminado")).catch((err) => res.status(500).json({ message: err }))
+    NewSource.deleteOne({ _id: id }).then((data) => res.status(204).json("Elemento Eliminado")).catch((err) => res.status(500).json({ message: err }))
 });
 //process feed url 
 route.post('/newSource/:id/process', async (req, res) => {
@@ -92,7 +92,7 @@ route.post('/newSource/:id/process', async (req, res) => {
         });
         const savedNew = await nuevaNoticia.save();//guarda la noticas
         createdNews.push(savedNew);//guarda el resultado en la lista
-        res.setHeader('Location', `http://localhost:3000/api/${savedNew._id}`); // Agregar la ubicación por id en el header
+        res.setHeader('Location', `http://localhost:3001/api/newSource/?id=${savedNew._id}`); // Agregar la ubicación por id en el header
       }
   
       res.status(201).json(createdNews);
