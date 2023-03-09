@@ -7,17 +7,17 @@ route.post('/login', async (req, res) => {
     try {
         const useremail = req.body.email;
         const password = req.body.pass;
-        const Val_UserBD = await User.model.findOne({ email: useremail }); //valida el correo electronico del usuario
-        if (!Val_UserBD) {//valida si  trae contedio 
+        const val_UserBD = await User.model.findOne({ email: useremail }); //valida el correo electronico del usuario
+        if (!val_UserBD) {//valida si  trae contedio 
             return res.status(422).json({ message: "El correo no exite" })
         }
-        console.log(Val_UserBD.password);
+        console.log(val_UserBD.password);
         console.log(password);
 
-        if (password === Val_UserBD.password) {
+        if (password === val_UserBD.password) {
             const payload = {
-                id: Val_UserBD._id,
-                role: Val_UserBD.role // <-- role property included in payload
+                id: val_UserBD._id,
+                role: val_UserBD.role // <-- role property included in payload
             };
             const token = jwt.sign(payload, "nimer1");
             return res.status(200).json(token);
