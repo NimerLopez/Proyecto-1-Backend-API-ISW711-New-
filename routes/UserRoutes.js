@@ -11,13 +11,13 @@ route.post('/User', (req, res) => {
 });
 //get all player
 route.get('/user', (req, res) => {
-  User.model.find().then((data) => res.json(data))
-    .catch((err) => res.json({ message: err }))
+  User.model.find().then((data) => res.status(200).json(data))
+    .catch((err) => res.status(422).json({ message: err }))
 
 });
 //get user by id
 route.get('/user/:id', (req, res) => {
   const { id } = req.params;
-  User.findById(id).then((data) => res.json(data)).catch((err) => res.json({ message: err }))
+  User.findById(id).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 module.exports = route;
