@@ -7,7 +7,8 @@ route.post('/User', (req, res) => {
 
   const userinsert = User.model(req.body);
   console.log(userinsert.firstname);
-  userinsert.save().then((data) => res.status(201).json(data)).catch((err) => res.status(422).json({ message: err.message }));
+  userinsert.save().then((data) => res.header({ 'location': `http://localhost:3001/api/user/?id=${data._id}` }),
+  res.status(201).json(data)).catch((err) => res.status(422).json({ message: err.message }));
 });
 //get all player
 route.get('/user', (req, res) => {
