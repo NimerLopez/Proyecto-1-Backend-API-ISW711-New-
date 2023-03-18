@@ -12,14 +12,14 @@ route.post('/categories', (req, res) => {
 });
 //get all player
 route.get('/categories', (req, res) => {
-  Categories.model.find().then((data) => res.json(data))
-    .catch((err) => res.json({ message: err }))
+  Categories.model.find().then((data) => res.status(200).json(data))
+    .catch((err) => res.status(422).json({ message: err }))
 
 });
 //get Categories by id
 route.get('/categories/:id', (req, res) => {
   const { id } = req.params;
-  Categories.model.findById(id).then((data) => res.json(data)).catch((err) => res.json({ message: err }))
+  Categories.model.findById(id).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //delete categories by id
 route.delete('/new/:id', (req, res) => {

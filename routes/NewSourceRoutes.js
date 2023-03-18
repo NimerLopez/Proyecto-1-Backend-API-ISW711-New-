@@ -8,12 +8,12 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 //get all NewSource
 route.get('/newSource', (req, res) => {
-    NewSource.find().then((data) => res.json(data)).catch((err) => res.json({ message: err }))
+    NewSource.find().then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //get NewSource by id
 route.get('/newSource/:id', (req, res) => {
     const { id } = req.params;
-    NewSource.findById(id).then((data) => res.json(data)).catch((err) => res.json({ message: err }))
+    NewSource.findById(id).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 
 //add NewSource

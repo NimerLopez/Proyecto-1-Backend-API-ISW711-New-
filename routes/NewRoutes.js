@@ -7,12 +7,12 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 //get all new by token
 route.get('/new', (req, res) => {
-  New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.json({ message: err }))
+  New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //get new by id
 route.get('/new/:id', (req, res) => {
   const { id } = req.params;
-  New.findById(id).then((data) => res.json(data)).catch((err) => res.json({ message: err }))
+  New.findById(id).then((data) => res.status(200).json(data)).catch((err) => res.status(201).json({ message: err }))
 });
 
 //add new

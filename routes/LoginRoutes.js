@@ -9,7 +9,7 @@ route.post('/login', async (req, res) => {
         const password = req.body.pass;
         const val_UserBD = await User.model.findOne({ email: useremail }); //valida el correo electronico del usuario
         if (!val_UserBD) {//valida si  trae contedio 
-            return res.status(422).json({ message: "El correo no exite" })
+            return res.status(200).json({ message: "Datos Incorrectos" })
         }
         console.log(val_UserBD.password);
         console.log(password);
@@ -22,7 +22,7 @@ route.post('/login', async (req, res) => {
             const token = jwt.sign(payload, "nimer1");
             return res.status(200).json(token);
         } else {
-            return res.status(422).json({ message: "Contraseña invalida" })
+            return res.status(200).json({ message: "Datos Incorrectos" })
         }
 
 
