@@ -19,11 +19,13 @@ route.get('/newSource/:id', (req, res) => {
 //add NewSource
 route.post('/newSource', async (req, res) => {
     try {
-        let Id_user = await User.model.findById(req.body.user_id);//captura el usuario
+        console.log(req.tokeng.id);
+        let Id_user = await User.model.findById(req.tokeng.id);//captura el usuario
         let category_id = await category.model.findById(req.body.category_id);//captura la categoria
         console.log(Id_user);
         console.log(category_id);
         if (Id_user && category_id) {//valida si existe el usuario
+            req.body.user_id=req.tokeng.id;
             let NewSocon = new NewSource(req.body);//captura dats de request
             //console.log(NewSocon);
             let savedNewSource = await NewSocon.save();//guarda datos
@@ -35,11 +37,11 @@ route.post('/newSource', async (req, res) => {
             res.json(savedNewSource);
         } else {
             res.status(422);
-            throw new Error('No se encontró el equipo');
+            throw new Error('No se encontró');
         }
     } catch (error) {//se cae si no se encuentra 
         res.status(422);
-        res.json({ message: error.message + " No se encontro al equipo xx" });
+        res.json({ message: error.message + " No se encontro ver" });
     }
 });
 //update new 
@@ -77,7 +79,7 @@ route.post('/newSource/:id/process', async (req, res) => {
         const newssorce = await NewSource.findById(id);//busca el id del recurso
         await New.deleteMany({ new_source_id: newssorce._id });//borra todas las noticas de este recurso
         const feed = await parser.parseURL(newssorce.url);//procesa el feed
-
+        console.log(feed);
         const createdNews = [];//guarda el objeto guardado en mongodb
         for (const item of feed.items) {//lee el feed
             const nuevaNoticia = new New({//objeto New
@@ -87,7 +89,8 @@ route.post('/newSource/:id/process', async (req, res) => {
                 date: item.pubDate,
                 new_source_id: newssorce._id,
                 user_id: newssorce.user_id,
-                category_id: newssorce.category_id
+                category_id: newssorce.category_id,
+                enclosure: item.enclosure
             });
             const savedNew = await nuevaNoticia.save();//guarda la noticas
             createdNews.push(savedNew);//guarda el resultado en la lista
