@@ -9,10 +9,11 @@ const parser = new Parser();
 route.get('/new/myNew', (req, res) => {
   New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
-//get all new by token
+//get all new by token and categori id
 route.get('/new/myNew/categoryid', (req, res) => {
   console.log(req.body.categoryId);
-  New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
+  console.log(req.tokeng.id);
+  New.find({ user_id: req.tokeng.id, category_id: req.body.categoryId}).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //get new by id
 route.get('/news/:id', (req, res) => {

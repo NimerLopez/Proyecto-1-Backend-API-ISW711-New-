@@ -1,9 +1,10 @@
 const express = require('express');
 const route=express.Router();
 const categoriesmo =require("../models/CategoriesSchema")
+//const User = require("../models/UserSchema")
 //not using
 //add user
-// route.post('/User',(req,res)=>{
+// route.post('/user',(req,res)=>{
 //     const userinsert = User.model(req.body);
 //     userinsert.save().then((data)=>res.json(data)).catch((err)=>res.json({message:err}))
 //   });
