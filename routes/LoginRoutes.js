@@ -15,11 +15,11 @@ route.post('/login', async (req, res) => {
         console.log(password);
 
         if (password === val_UserBD.password) {
-            const payload = {
+            const useDate = {
                 id: val_UserBD._id,
                 role: val_UserBD.role // <-- role property included in payload
             };
-            const token = jwt.sign(payload, "nimer1");
+            const token = jwt.sign(useDate, "nimer1");
             return res.status(200).json(token);
         } else {
             return res.status(200).json({ message: "Datos Incorrectos" })

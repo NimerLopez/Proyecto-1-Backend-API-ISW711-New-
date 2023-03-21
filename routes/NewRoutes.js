@@ -6,14 +6,27 @@ const NewSource = require("../models/NewSourceSchema")
 const Parser = require('rss-parser');
 const parser = new Parser();
 //get all new by token
-route.get('/new', (req, res) => {
+route.get('/new/myNew', (req, res) => {
+  New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
+});
+//get all new by token
+route.get('/new/myNew/categoryid', (req, res) => {
+  console.log(req.body.categoryId);
   New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //get new by id
-route.get('/new/:id', (req, res) => {
+route.get('/news/:id', (req, res) => {
   const { id } = req.params;
+  console.log(id);
   New.findById(id).then((data) => res.status(200).json(data)).catch((err) => res.status(201).json({ message: err }))
 });
+//get all new by UserID
+route.get('/new/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  console.log(user_id);
+  New.find({ user_id: user_id}).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
+});
+
 
 //add new
 //  route.post('/new', async (req, res) => {
@@ -70,7 +83,7 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
       });
       //console.log(NuevaNoticia);
       let savedNew = await nuevaNoticia.save();//guarda datos
-      results.push({ message: 'Artículo guardado correctamente.', data: savedNew });//devuelve la noticia para la respuesta
+      results.push(savedNew );//devuelve la noticia para la respuesta
       console.log("existencia");
       //const savedArticle = await newArticle.save();
       //results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });     

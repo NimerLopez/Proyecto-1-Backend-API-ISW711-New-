@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Token = require('jsonwebtoken');
+const tokenD = require('jsonwebtoken');
 const dotv = require('dotenv').config();
 const userRoute = require('./routes/UserRoutes')
 const newRoute = require('./routes/NewRoutes')
 const newSoruceRoute = require('./routes/NewSourceRoutes')
 const categories = require('./routes/CategoryRoutes')
 const login = require('./routes/LoginRoutes')
+const public=require('./routes/routes');
 const cors = require('cors');
 const app = express();
 app.use(express.json());
@@ -20,17 +21,17 @@ app.use(cors());
 //npm install bcrypt
 
 //middleware
-
+app.use('/api', public);
 app.use('/api', userRoute);
 app.use('/api', login);
 app.use(function (req, res, next) { //valida token
   const authHeader = req.headers['authorization'];//obtinen el token
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) {
-    return res.status(401).json({ message: 'No se proporcionó un token de autorización.' });
+    return res.status(401).json({ message: 'No se proporciono un token de autorización.' });
   }
 
-  Token.verify(token, "nimer1", (err, user) => {//verifica y decodifica el token
+  tokenD.verify(token, "nimer1", (err, user) => {//verifica y decodifica el token
     if (err) {
       return res.status(403).json({ message: 'Unauthorized' });
     }
@@ -45,7 +46,7 @@ function isAdmin(req, res, next) {
   // check if token is present
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  Token.verify(token, "nimer1", (err, user) => {
+  tokenD.verify(token, "nimer1", (err, user) => {
     if (err) {
       return res.status(403).json({ message: 'Unauthorized' });
     }
