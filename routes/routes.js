@@ -1,7 +1,7 @@
 const express = require('express');
-const route=express.Router();
-const categoriesmo =require("../models/CategoriesSchema")
-//const User = require("../models/UserSchema")
+const route = express.Router();
+const categoriesmo = require("../models/CategoriesSchema")
+const User = require("../models/UserSchema")
 //not using
 //add user
 // route.post('/user',(req,res)=>{
@@ -10,14 +10,11 @@ const categoriesmo =require("../models/CategoriesSchema")
 //   });
 
 //get all Categories
-route.get('/categories/public',(req,res)=>{
-    categoriesmo.model.find().then((data)=>res.json(data)).catch((err)=>res.json({message:err}))
-  });
-//get all new
-// route.get('/new',(req,res)=>{
-//     New.find().then((data)=>res.json(data)).catch((err)=>res.json({message:err}))
-//   });
+route.get('/categories/public', (req, res) => {
+  categoriesmo.model.find().then((data) => res.json(data)).catch((err) => res.json({ message: err }))
+});
 
-module.exports=route;
+
+module.exports = route;
 
 

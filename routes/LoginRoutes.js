@@ -20,7 +20,7 @@ route.post('/login', async (req, res) => {
                 role: val_UserBD.role // <-- role property included in payload
             };
             const token = jwt.sign(useDate, "nimer1");
-            return res.status(200).json(token);
+            return res.status(200).json({ token, useDate });
         } else {
             return res.status(200).json({ message: "Datos Incorrectos" })
         }

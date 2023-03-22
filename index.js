@@ -7,7 +7,7 @@ const newRoute = require('./routes/NewRoutes')
 const newSoruceRoute = require('./routes/NewSourceRoutes')
 const categories = require('./routes/CategoryRoutes')
 const login = require('./routes/LoginRoutes')
-const public=require('./routes/routes');
+const public = require('./routes/routes');
 const cors = require('cors');
 const app = express();
 app.use(express.json());

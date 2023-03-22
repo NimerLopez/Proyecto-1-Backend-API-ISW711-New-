@@ -10,10 +10,11 @@ route.get('/new/myNew', (req, res) => {
   New.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //get all new by token and categori id
-route.get('/new/myNew/categoryid', (req, res) => {
-  console.log(req.body.categoryId);
+route.get('/new/myNew/categoryid/:id', (req, res) => {
+  const { id } = req.params;
   console.log(req.tokeng.id);
-  New.find({ user_id: req.tokeng.id, category_id: req.body.categoryId}).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
+  console.log(id);
+  New.find({ user_id: req.tokeng.id, category_id: id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //get new by id
 route.get('/news/:id', (req, res) => {
@@ -25,7 +26,11 @@ route.get('/news/:id', (req, res) => {
 route.get('/new/:user_id', (req, res) => {
   const { user_id } = req.params;
   console.log(user_id);
-  New.find({ user_id: user_id}).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
+  New.find({ user_id: user_id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
+});
+//get name 
+route.get('/userFirstName', (req, res) => {
+  User.model.findById(req.tokeng.id).then((data) => res.json(data.firstname)).catch((err) => res.json({ message: err }))
 });
 
 
@@ -84,7 +89,7 @@ async function saveNewRSSDataToMongo(rssData, userid, categoriid, idnewsource) {
       });
       //console.log(NuevaNoticia);
       let savedNew = await nuevaNoticia.save();//guarda datos
-      results.push(savedNew );//devuelve la noticia para la respuesta
+      results.push(savedNew);//devuelve la noticia para la respuesta
       console.log("existencia");
       //const savedArticle = await newArticle.save();
       //results.push({ message: 'Artículo guardado correctamente.', /* data: savedArticle */ });     

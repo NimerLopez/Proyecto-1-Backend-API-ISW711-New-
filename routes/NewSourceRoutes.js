@@ -10,6 +10,10 @@ const parser = new Parser();
 route.get('/newSource', (req, res) => {
     NewSource.find().then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
+//get NewSource by token
+route.get('/myNewSource', (req, res) => {
+    NewSource.find({ user_id: req.tokeng.id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
+});
 //get NewSource by id
 route.get('/newSource/:id', (req, res) => {
     const { id } = req.params;
@@ -25,7 +29,7 @@ route.post('/newSource', async (req, res) => {
         console.log(Id_user);
         console.log(category_id);
         if (Id_user && category_id) {//valida si existe el usuario
-            req.body.user_id=req.tokeng.id;
+            req.body.user_id = req.tokeng.id;
             let NewSocon = new NewSource(req.body);//captura dats de request
             //console.log(NewSocon);
             let savedNewSource = await NewSocon.save();//guarda datos
