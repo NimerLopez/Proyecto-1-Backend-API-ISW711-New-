@@ -29,8 +29,8 @@ route.get('/new/:user_id', (req, res) => {
   New.find({ user_id: user_id }).then((data) => res.status(200).json(data)).catch((err) => res.status(422).json({ message: err }))
 });
 //get name 
-route.get('/userFirstName', (req, res) => {
-  User.model.findById(req.tokeng.id).then((data) => res.json(data.firstname)).catch((err) => res.json({ message: err }))
+route.get('/userdata', (req, res) => {
+  User.model.findById(req.tokeng.id).then((data) => res.json(data)).catch((err) => res.json({ message: err }))
 });
 
 
